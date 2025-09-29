@@ -1,7 +1,6 @@
 package com.back.global.rq;
 
 import com.back.domain.member.member.entity.Member;
-import com.back.domain.member.member.service.MemberService;
 import com.back.global.exception.ServiceException;
 import com.back.global.security.SecurityUser;
 import jakarta.servlet.http.Cookie;
@@ -12,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -19,7 +19,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class Rq {
 
-    private final MemberService memberService;
     private final HttpServletRequest request;
     private final HttpServletResponse response;
 
@@ -87,5 +86,9 @@ public class Rq {
 
     public void deleteCookie(String name) {
         setCookie(name, null);
+    }
+
+    public void sendRedirect(String url) throws IOException {
+        response.sendRedirect(url);
     }
 }
