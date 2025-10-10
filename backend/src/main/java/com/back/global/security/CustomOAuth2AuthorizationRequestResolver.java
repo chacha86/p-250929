@@ -39,9 +39,14 @@ public class CustomOAuth2AuthorizationRequestResolver implements OAuth2Authoriza
     }
 
     private OAuth2AuthorizationRequest customizeState(OAuth2AuthorizationRequest authorizationRequest, HttpServletRequest req) {
+
+        if(authorizationRequest == null) {
+            return null;
+        }
+
         String redirectUrl = req.getParameter("redirectUrl");
 
-        if(redirectUrl.isBlank()) {
+        if(redirectUrl == null) {
             redirectUrl = "/";
         }
 

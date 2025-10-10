@@ -22,6 +22,7 @@ public class SecurityConfig {
 
     private final CustomAuthenticationFilter customAuthenticationFilter;
     private final CustomOAuth2LoginSuccessHandler customOAuth2LoginSuccessHandler;
+    private final CustomOAuth2AuthorizationRequestResolver customOAuth2AuthorizationRequestResolver;
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -44,7 +45,11 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2Login(oauth2 -> {
-                                                    oauth2.successHandler(customOAuth2LoginSuccessHandler);
+                    oauth2
+                            .successHandler(customOAuth2LoginSuccessHandler)
+                            .authorizationEndpoint(authorizationEndPoint ->
+                                    authorizationEndPoint.authorizationRequestResolver(customOAuth2AuthorizationRequestResolver)
+                            );
                 })
                 .exceptionHandling(
                         exceptionHandling -> exceptionHandling
