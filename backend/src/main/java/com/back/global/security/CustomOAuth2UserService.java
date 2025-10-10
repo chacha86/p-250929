@@ -1,5 +1,8 @@
 package com.back.global.security;
 
+import com.back.domain.member.member.entity.Member;
+import com.back.domain.member.member.service.MemberService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -11,7 +14,10 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
+
+    private final MemberService memberService;
 
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
@@ -30,7 +36,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String profileImgUrl = (String) attributesProperties.get(profileImgUrlAttributeName);
         String username = providerTypeCode + "__%s".formatted(oauthUserId);
         String password = "";
-        // Member member = memberService.modifyOrJoin(username, password, nickname, profileImgUrl).data();
+        Member member = memberService.modifyOrJoin(username, password, nickname, profileImgUrl);
 
         return new DefaultOAuth2User(List.of(),
                 attributes,
