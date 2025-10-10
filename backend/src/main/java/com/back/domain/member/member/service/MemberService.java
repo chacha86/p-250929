@@ -6,6 +6,7 @@ import com.back.global.exception.ServiceException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -37,6 +38,7 @@ public class MemberService {
         Member member = new Member(username, passwordEncoder.encode(password), nickname, profileImgUrl);
         return memberRepository.save(member);
     }
+
 
 
     public Member modifyOrJoin(String username, String password, String nickname, String profileImgUrl) {
